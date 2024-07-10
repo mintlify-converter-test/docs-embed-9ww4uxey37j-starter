@@ -1,91 +1,98 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "docs-embed",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/inverted.png",
+    "light": "/logo/regular.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#000000",
+    "light": "#f2f2f2",
+    "dark": "#000000",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#000000",
+      "to": "#f2f2f2"
     }
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "See More",
+      "url": "/customers"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Sign Up",
+    "url": "https://app.embed.ly/signup"
   },
   "tabs": [
     {
       "name": "API Reference",
-      "url": "api-reference"
+      "url": "reference"
     }
   ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
-    }
-  ],
+  "anchors": [],
+  "modeToggle": {
+    "default": "dark"
+  },
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "DOCUMENTATION",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "reference/embedly-api",
+        "reference/authentication",
+        "reference/libraries",
+        "reference/faq"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "API",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "reference/oembed",
+        "reference/extract",
+        "reference/display",
+        "reference/resize",
+        "reference/crop",
+        "reference/fill"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "JAVASCRIPT",
       "pages": [
-        "api-reference/introduction"
+        "reference/platformjs",
+        "reference/cards",
+        "reference/player",
+        "reference/button",
+        "reference/native"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "PLAYER.JS",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "reference/playerjs"
+      ]
+    },
+    {
+      "group": "TUTORIALS",
+      "pages": [
+        "reference/tutorials-inline",
+        "reference/modal",
+        "reference/responsive-embeds",
+        "reference/tutorial-play-and-stop-gifs",
+        "reference/color-background-placeholders-for-loading-images",
+        "reference/embedding-with-google-amp",
+        "reference/masonry-embedly"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
-  }
+    "medium": "http://medium.com/jobs",
+    "twitter": "http://twitter.com/embedly",
+    "facebook": "http://www.facebook.com/embedly",
+    "github": "http://www.github.com/embedly"
+  },
+  "openapi": [
+    "/openapi-0.json",
+    "/openapi-1.json"
+  ]
 }
