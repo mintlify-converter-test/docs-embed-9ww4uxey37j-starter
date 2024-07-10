@@ -1,0 +1,269 @@
+---
+title: "Cards"
+---
+Cards provide you with responsive and shareable embeds to drive the reach of your websites, blog posts, and articles. Our [code generator](http://embed.ly/code)
+ makes it super simple to create a card of any site.
+
+The follow explains how to use platform.js to programmatically create cards.
+
+## Basics
+
+This adds [platform.js](/docs/platformjs)
+ to your site and loads the script asynchronously. By  
+default `platform.js` will create a card for an `A` tag or `BLOCKQUOTE`  
+with the class `embedly-card`. For example, this will create a card for  
+embed.ly:
+
+```html html
+<a href="http://embed.ly" class="embedly-card">Embedly</a>
+
+```
+
+And this will also create a card:
+
+```html html
+<blockquote class="embedly-card">
+    <h4><a href="http://embed.ly/docs">Documentation</a></h4>
+    <p>
+      Embedly's Documentation is the best.
+    </p>
+  </blockquote>
+
+```
+
+The difference here, is that the `H4` will become the title of the Card and  
+the `P` text will become the description.
+
+## Customize
+
+There are a number of `data-card-*` attributes that you can use to customize  
+the card. They are as follows:
+
+| Attribute | Value | Description |
+| --- | --- | --- |
+| data-card-via | URL i.e [http://embed.ly](http://embed.ly) | Specifies the via content in the card. It's a great way to do attribution. |
+| data-card-chrome | "1", "0" | Chrome of 0 will remove the left hand colored border. |
+| data-card-theme | "light", "dark" | For dark backgrounds it's better to specify the dark theme. |
+| data-card-image | URL i.e. [http://embed.ly/image.jpg](http://embed.ly/image.jpg) | Specify which image to use in article cards. |
+| data-card-embed | URL i.e. [https://vimeo.com/62648882](https://vimeo.com/62648882) | Instead of using the static page content, the card will embed the video or rich media. |
+| data-card-controls | "1", "0" | Enable Share Icons. Default: "1" |
+| data-card-width | "100%", "300px", etc. | Sets the width of the card. Specifically the max-width, so card is still responsive. |
+| data-card-align | "left", "center", "right" | Align the card, Default: "center" |
+| data-card-recommend | "1", "0" | Disable Embedly Recommendations on video and rich cards. Default: 1 |
+| data-card-key | "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" | You Embedly API Key. If you are a paid user this will remove Embedly's branding from the cards. |
+
+## Javascript
+
+Platform.js has some pretty interesting features for customizing cards further. For example, if you do not want to use a custom class instead of `embedly-card` you can use the following code:
+
+```javascript javascript
+embedly('card', '.card-this');
+
+```
+
+If you would like to create a card from a single element you can do the  
+following:
+
+```javascript javascript
+var a = document.getElementById('#myCard');
+ embedly('card', a);
+
+```
+
+Lastly if you would like to limit the cards to only embed certain types of  
+media you can pass in a `types` argument::
+
+```javascript javascript
+embedly('card', {types: ['rich', 'video', 'image']});
+
+```
+
+or with a custom selector as well:
+
+```javascript javascript
+embedly('card', {selector: 'a.embed', types: ['article', 'image']});
+
+```
+
+If `platform.js` has not loaded yet, it will queue actions till we are ready  
+to act on them.
+
+## Listeners
+
+When using cards in non-standard displays you may want to listen to some events. Cards supports the following events.
+
+**`card.rendered`**
+
+When the card has actually been rendered.
+
+```javascript javascript
+embedly('on', 'card.rendered', function(iframe){
+  // iframe is the card iframe that we used to render the event.
+  $card = $(iframe);
+
+  // Grab the width and height.
+  console.log($card.width(), $card.height());
+});
+
+```
+
+**`card.resize`**
+
+When the card has been resized. We do this fairly often when the browser window has changed size, or the content in the card has changed.
+
+```javascript javascript
+embedly('on', 'card.resize', function(iframe){
+  // iframe is the card iframe that we used to render the event.
+  $card = $(iframe);
+
+  // Grab the width and height.
+  console.log($card.width(), $card.height());
+});
+
+```
+
+## Defaults
+
+If you would like to set options globally instead of per card you use  
+`defaults`. Here's an example of setting all the cards to align right with a  
+width of 700px and remove the chrome.
+
+```javascript javascript
+embedly("defaults", {
+  cards: {
+    key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    width: 700,
+    align: 'right',
+    chrome: 0
+  }
+});
+
+```
+
+Note that data attributes on the card override these defaults. If you wish for the defaults to override the data attributes, you can add `override: true` like so:
+
+```javascript javascript
+embedly("defaults", {
+  cards: {
+    override: true,
+    width: '90%',
+    ...
+  }
+});
+
+```
+
+## Player
+
+Embedly gives you programmatic control of embedded video via [Player.js](https://github.com/embedly/player.js/)
+ and we've expanded that to Cards as well. Player allows you to play, pause, seek and listen to events for cards with video. Here's a quick example:
+
+```javascript javascript
+embedly('player', function(player){
+  console.log(player.url) // URL of the media that we are operating on.
+
+  // When the user pauses a video, perform an action.
+  player.on('pause', function(){
+    //display modal.
+  });
+
+  // Autoplay all the videos that support Player.js
+  player.play()
+});
+
+```
+
+Learn more about the [Player functionality](/docs/player)
+
+## CSS Customization
+
+<Info>
+
+## CSS is only available on a paid plan.
+
+You can upgrade inside [app.embed.ly](https://app.embed.ly)
+
+
+</Info>
+
+Embedly allows you to customize the styles inside a card. If you want to change the font or colors of the card than this feature is for you! There are a couple of ways to pass styles into a card. We will outline them here.
+
+## inline
+
+You can specify the css styles inline via a `style` tag. Embedly will look for a single `style` tag with the `embedly-css` and use that CSS.
+
+```html html
+<style class="embedly-css">
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+  .card {
+    font-family: 'Open Sans Condensed', sans-serif;
+  }
+  .card a, .card .action {
+    color: red;
+  }
+  .hdr {
+    display:none;
+  }
+</style>
+
+```
+
+## link
+
+You can specify a stylesheet for Embedly to place inside the card via a `link` tag. Embedly will look for a single `link` tag with the `embedly-css` and use that CSS.
+
+```html html
+<head>
+  ...
+	<link rel="stylesheet" href="http://example.com/styles/card.css">
+</head>
+
+```
+
+## defaults
+
+Lastly you can pass the css through defaults like so:
+
+```javascript javascript
+embedly("defaults", {
+  cards: {
+    key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+		css: 'http://example.com/styles/card.css'
+  }
+});
+
+```
+
+## demo
+
+## Remove Branding
+
+Cards includes a "powered by Embedly" logo at the bottom of every card. If you would like to removed this branding, you can upgrade to a the embed product in [app.embed.ly](https://app.embed.ly/ar?path=settings%2Fplan)
+.
+
+Any card created through [app.embed.ly](https://app.embed.ly)
+ will have branding removed within 24 hours due to browser caching.
+
+For cards not generated through app.embed.ly you must include your API key, found [here](https://app.embed.ly/ar?path=api%2Fkey)
+. You can do this one of two ways.
+
+### On the Card
+
+```html html
+<a href="embedly-card" data-card-key="XXXXXXXXXXXX" href="http://embed.ly"></a>
+
+```
+
+### Via JavaScript
+
+```javascript javascript
+embedly("defaults", {
+  cards: {
+    key: 'XXXXXXXXXXXX',
+  }
+});
+
+```
+
+
+
