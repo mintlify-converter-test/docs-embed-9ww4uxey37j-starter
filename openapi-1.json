@@ -1,0 +1,761 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "API Settings",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.embedly.com"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sec0": {
+                "type": "apiKey",
+                "name": "key",
+                "in": "query",
+                "x-default": ""
+            }
+        }
+    },
+    "security": [
+        {
+            "sec0": []
+        }
+    ],
+    "paths": {
+        "/1/extract": {
+            "get": {
+                "summary": "/1/extract",
+                "description": "Extract allows users to dive into specifics on a site and beyond. With this API we allow developers to extract article text, topics, and retrieve more meta-data about articles, blog posts, and stories.",
+                "operationId": "extract",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL is to retrieve embedding information. This URL must be escaped to ensure that Embedly retrieves the correct link. For example, this Embedly URL.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "urls",
+                        "in": "query",
+                        "description": "A comma separated list of urls for Embedly to process. Each URL must be escaped, but commas separating URLS must NOT be URL encoded. urls accepts a maximum of 10 urls at a time. Embedly processes these urls in parallel, therefore, it’s quicker to use urls for batched processing.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "maxwidth",
+                        "in": "query",
+                        "description": "This is the maximum width of the embed in pixels. maxwidth is used for scaling down embeds so they fit into a certain width. If the container for an embed is 500px you should pass maxwidth=500 in the query parameters.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "maxheight",
+                        "in": "query",
+                        "description": "This is the maximum height of the embed in pixels. Functions the same as maxwidth, but for the height of the embed instead. It’s noteworthy that maxwidth is preferred over maxheight.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "Will scale embeds type rich and video to the exact width that a developer specifies in pixels. Embeds smaller than this width will be scaled up and embeds larger than this width will be scaled down. Note that using this may cause distortion when scaling up embeds.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "Will scale embeds type rich and video to the exact height that a developer specifies in pixels. Embeds smaller than this height will be scaled up and embeds larger than this height will be scaled down. Note that using this may cause distortion when scaling up embeds.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "in": "query",
+                        "description": "The response format – Accepted values: (xml, json)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wmode",
+                        "in": "query",
+                        "description": "Will append the wmode value to the flash object. Possible values include window, opaque and transparent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "callback",
+                        "in": "query",
+                        "description": "Returns a (jsonp) response format. The callback is the name of the javascript function to execute.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "allowscripts",
+                        "in": "query",
+                        "description": "By default Embedly does not return script embeds for jsonp requests. They just don’t work and cause lots of issues. In some cases, you may need the script tag for saving and displaying later. In order for Embedly to send the script embeds over jsonp add allowscripts=true. Use with care, and this option is only valid when a callback is supplied, otherwise, it is ignored.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "autoplay",
+                        "in": "query",
+                        "description": "This will tell the video/rich media to automatically play when the media is loaded. Accepted values: (true, false) Default: false",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "words",
+                        "in": "query",
+                        "description": "The words parameter works by trying to split the description at the closest sentence to that word count",
+                        "schema": {
+                            "type": "string",
+                            "default": "50"
+                        }
+                    },
+                    {
+                        "name": "chars",
+                        "in": "query",
+                        "description": "chars is much simpler than words. Embedly will blindly truncate a description to the number of characters you specify adding ... at the end when needed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "luxe",
+                        "in": "query",
+                        "description": "With luxe Embedly’s iframe is initially loaded with poster image and play button rather than loading the whole embed. When the user clicks play the embed is loaded and starts playing.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "secure",
+                        "in": "query",
+                        "description": "secure allows you to serve embeds with a SSL connection. You can also serve images over SSL with our Display product. You can enable this by adding secure=true.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "scheme",
+                        "in": "query",
+                        "description": "scheme allows to set the protocol scheme explicity to http or https. By default embeds are sent back protocol-less so that they will work in any page. You can explicity set a protocol by adding scheme=https.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "With title Embedly will set the title response attribute to the open_graph, meta, or twitter title if available in the page. Accepted values: (og, twitter, meta)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "With description Embedly will set the description response attribute to the open_graph, meta, or twitter description if available in the page. Accepted values: (og, twitter, meta)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "meta_images",
+                        "in": "query",
+                        "description": "Will return only images found in meta tags or an API response if set.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "description": "Turns on/off player analytics",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "dnt",
+                        "in": "query",
+                        "description": "Turns on/off Do Not Track support within embed",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{\n\"provider_url\": \"https://techcrunch.com\",\n\"description\": \"Chris Sacca, a former Google lawyer who rose to fame by betting heavily on Twitter and Uber, says he's \\\"hanging up his spurs,\\\" and getting out of the investing game.\",\n\"embeds\": [],\n\"safe\": true,\n\"provider_display\": \"techcrunch.com\",\n\"related\": [],\n\"favicon_url\": \"https://s0.wp.com/wp-content/themes/vip/techcrunch-2013/assets/images/favicon.ico\",\n\"authors\": [\n{\n\"url\": \"https://techcrunch.com/author/connie-loizos/\",\n\"name\": \"Connie Loizos\"\n}\n],\n\"images\": [\n{\n\"caption\": null,\n\"url\": \"https://tctechcrunch2011.files.wordpress.com/2015/12/chris-sacca.jpg?w=764&h=400&crop=1\",\n\"height\": 400,\n\"width\": 764,\n\"colors\": [\n{\n\"color\": [\n18,\n19,\n17\n],\n\"weight\": 0.7021484375\n},\n{\n\"color\": [\n97,\n84,\n70\n],\n\"weight\": 0.1240234375\n},\n{\n\"color\": [\n151,\n115,\n91\n],\n\"weight\": 0.0517578125\n},\n{\n\"color\": [\n223,\n158,\n123\n],\n\"weight\": 0.0446777344\n},\n{\n\"color\": [\n233,\n202,\n174\n],\n\"weight\": 0.0263671875\n}\n],\n\"entropy\": 4.7803223993,\n\"size\": 88810\n},\n{\n\"caption\": null,\n\"url\": \"https://tctechcrunch2011.files.wordpress.com/2015/12/chris-sacca.jpg?w=738\",\n\"height\": 488,\n\"width\": 738,\n\"colors\": [\n{\n\"color\": [\n18,\n20,\n20\n],\n\"weight\": 0.7199707031\n},\n{\n\"color\": [\n93,\n85,\n73\n],\n\"weight\": 0.1225585938\n},\n{\n\"color\": [\n223,\n160,\n124\n],\n\"weight\": 0.048095703100000005\n},\n{\n\"color\": [\n148,\n113,\n87\n],\n\"weight\": 0.044921875\n},\n{\n\"color\": [\n235,\n231,\n218\n],\n\"weight\": 0.0329589844\n}\n],\n\"entropy\": 4.6758304806,\n\"size\": 101948\n},\n{\n\"caption\": null,\n\"url\": \"https://img.vidible.tv/prod/2017-04/25/58ffc1f48c08e052e1644070/58ffc3f9e6604d71fb7cdb54_o_U_v1.jpg?w=300&h=170\",\n\"height\": 170,\n\"width\": 300,\n\"colors\": [\n{\n\"color\": [\n85,\n67,\n59\n],\n\"weight\": 0.4489746094\n},\n{\n\"color\": [\n153,\n149,\n143\n],\n\"weight\": 0.1459960938\n},\n{\n\"color\": [\n126,\n119,\n104\n],\n\"weight\": 0.1435546875\n},\n{\n\"color\": [\n14,\n14,\n14\n],\n\"weight\": 0.1369628906\n},\n{\n\"color\": [\n200,\n196,\n183\n],\n\"weight\": 0.1245117188\n}\n],\n\"entropy\": 6.2522511555,\n\"size\": 8629\n},\n{\n\"caption\": null,\n\"url\": \"https://tctechcrunch2011.files.wordpress.com/2016/12/waggle_4_dog_party_hat.jpg?w=150\",\n\"height\": 79,\n\"width\": 150,\n\"colors\": [\n{\n\"color\": [\n238,\n216,\n185\n],\n\"weight\": 0.4328613281\n},\n{\n\"color\": [\n214,\n170,\n131\n],\n\"weight\": 0.271484375\n},\n{\n\"color\": [\n199,\n114,\n59\n],\n\"weight\": 0.0993652344\n},\n{\n\"color\": [\n112,\n61,\n23\n],\n\"weight\": 0.0729980469\n},\n{\n\"color\": [\n152,\n93,\n48\n],\n\"weight\": 0.059814453100000005\n}\n],\n\"entropy\": 6.1035896517,\n\"size\": 8647\n},\n{\n\"caption\": null,\n\"url\": \"https://tctechcrunch2011.files.wordpress.com/2017/04/founding-team-v3.jpeg?w=150\",\n\"height\": 101,\n\"width\": 150,\n\"colors\": [\n{\n\"color\": [\n150,\n135,\n120\n],\n\"weight\": 0.2763671875\n},\n{\n\"color\": [\n98,\n90,\n85\n],\n\"weight\": 0.259765625\n},\n{\n\"color\": [\n174,\n182,\n176\n],\n\"weight\": 0.2321777344\n},\n{\n\"color\": [\n48,\n49,\n52\n],\n\"weight\": 0.2316894531\n}\n],\n\"entropy\": 6.4027591671,\n\"size\": 22655\n}\n],\n\"cache_age\": 86400,\n\"language\": \"en\",\n\"app_links\": [\n{\n\"path\": \"http/https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/\",\n\"package\": \"com.aol.mobile.techcrunch\",\n\"namespace\": \"google\",\n\"type\": \"android\"\n}\n],\n\"original_url\": \"https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/\",\n\"url\": \"https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/\",\n\"media\": {},\n\"title\": \"Investor Chris Sacca is retiring from venture capital\",\n\"offset\": null,\n\"lead\": null,\n\"content\": \"<div>\\n<img src=\\\"https://tctechcrunch2011.files.wordpress.com/2015/12/chris-sacca.jpg?w=738\\\"><p>Chris Sacca, a former Google lawyer who rose to fame by betting heavily on Twitter and Uber, says he's \\\"hanging up his spurs,\\\" and getting out of the investing game.</p>\\n<p>In a  <a href=\\\"https://lowercasecapital.com/2017/04/26/hanging-up-my-spurs/\\\">new post</a>, Sacca explains that he achieved what he set out to do when he created his venture firm, <a href=\\\"https://lowercasecapital.com/\\\">Lowercase Capital</a>, in 2009, an outfit that was helped along by early checks from Industry Ventures, Yahoo CEO Marissa Mayer, and Sacca's former Google boss, Eric Schmidt.</p>\\n<p>Sacca had made one early bet in Instagram, as highlighted in a <a href=\\\"https://www.forbes.com/sites/alexkonrad/2015/03/25/how-venture-cowboy-chris-sacca-made-billions/#562b2d716597\\\"><em>Forbes</em> profile</a> about him in 2015. He quickly moved on to Twitter, however, creating four separate funds to buy up as many shares in the company, including from employees, as he could get his hands on.</p>\\n<p>\\\"I wasted months trying to get others to believe it could be a real business, not just a toy,\\\" he told Forbes. \\\"And I decided to just buy it all myself.\\\" By the time of the article's publication, those various Twitter deals had reportedly returned $5 billion to investors.</p>\\n<p>Sacca later tried repeating the move, gobbling up as many early Uber shares as he could. Yet at some point, his aggressive buying spree created a rift between himself and Uber CEO Travis Kalanick, who reportedly wasn't keen on him approaching employees about selling their stakes.</p>\\n<p>That Sacca - who reportedly owned at least <a href=\\\"http://www.businessinsider.com/investor-chris-sacca-owns-4-of-uber-but-barely-speaks-to-ceo-travis-kalanick-2015-3\\\">4 percent</a> of the company at once point (and may still) - has \\\"zero say\\\" in how Uber is run has been \\\"frustrating,\\\" he <a href=\\\"https://twitter.com/sacca/status/833464144271597568\\\">tweeted</a> in February.</p>\\n<p>In recent years, Sacca has also <a href=\\\"http://www.cnbc.com/2017/03/15/chris-sacca-twitter-investor-hates-stock-calls-bot-issue-embarrassing.html\\\">distanced himself</a> from Twitter, posting to his active Twitter account in March that, \\\"I haven't owned TWTR for almost a couple of years. When they failed to get Ev involved again, I lost hope. Love the service, hate the stock.\\\"</p>\\n<p>In announcing his retirement from venture investing today, Sacca writes that it's \\\"hard to leave all this behind right when things are going so well. I'm good at what I do and still getting improving as I learn from mentors, founders, partners, friends, family, strangers, my own investors, and the experience itself. The better I get at investing in and helping companies, the result is more founders who are excited to work with me and more of my wonderful limited partners insisting I take piles of their loot to keep it all going.\\\"</p>\\n<p>Still, says Sacca, with three children under age six, homes in Big Sky, Montana; Truckee, Ca.; and L.A., he's been trying to invest part-time and realized that it \\\"doesn't work when I've just got toes dangling in the water.\\\" He's opting not to raise more money for Lowercase, as a result. (He hints that his investing partner at the firm, Matt Mazzeo, will have a fund of his own soon.)</p>\\n<p>So what comes next for Sacca? To head off any other questions about what comes next, he answers them pre-emptively in a rhetorical question format. Politics? No. More \\\"Shark Tank,\\\" the hit TV show where he has appeared as a judge in past seasons? No.</p>\\n<p>What he will be doing, he says, is potentially more (other) TV, along with a podcast that Sacca describes as \\\"different from anything else I've seen out there,\\\" with subject matter that is \\\"hopefully boundless, eye-opening, and a little cathartic.\\\"</p>\\n<p>Matt Mazzeo, a former CAA business development exec who joined Sacca at Lowercase in 2012, had told Forbes a couple of years back: \\\"I don't think Chris is one of those guys who makes a ton of money and drops the mic and leaves the room. He loves the people in the room so much that he'll stay.\\\"</p>\\n<p>Times change, however. For Sacca, it's now \\\"time to walk away.\\\"</p>\\n</div>\",\n\"entities\": [],\n\"favicon_colors\": [\n{\n\"color\": [\n0,\n148,\n1\n],\n\"weight\": 0.2082519531\n},\n{\n\"color\": [\n252,\n252,\n252\n],\n\"weight\": 0.0417480469\n}\n],\n\"keywords\": [],\n\"published\": 1491987613000,\n\"provider_name\": \"TechCrunch\",\n\"type\": \"html\"\n}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "provider_url": {
+                                            "type": "string",
+                                            "example": "https://techcrunch.com"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Chris Sacca, a former Google lawyer who rose to fame by betting heavily on Twitter and Uber, says he's \"hanging up his spurs,\" and getting out of the investing game."
+                                        },
+                                        "embeds": {
+                                            "type": "array"
+                                        },
+                                        "safe": {
+                                            "type": "boolean",
+                                            "example": true,
+                                            "default": true
+                                        },
+                                        "provider_display": {
+                                            "type": "string",
+                                            "example": "techcrunch.com"
+                                        },
+                                        "related": {
+                                            "type": "array"
+                                        },
+                                        "favicon_url": {
+                                            "type": "string",
+                                            "example": "https://s0.wp.com/wp-content/themes/vip/techcrunch-2013/assets/images/favicon.ico"
+                                        },
+                                        "authors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "https://techcrunch.com/author/connie-loizos/"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Connie Loizos"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "caption": {},
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "https://tctechcrunch2011.files.wordpress.com/2015/12/chris-sacca.jpg?w=764&h=400&crop=1"
+                                                    },
+                                                    "height": {
+                                                        "type": "integer",
+                                                        "example": 400,
+                                                        "default": 0
+                                                    },
+                                                    "width": {
+                                                        "type": "integer",
+                                                        "example": 764,
+                                                        "default": 0
+                                                    },
+                                                    "colors": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "color": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "integer",
+                                                                        "example": 18,
+                                                                        "default": 0
+                                                                    }
+                                                                },
+                                                                "weight": {
+                                                                    "type": "number",
+                                                                    "example": 0.7021484375,
+                                                                    "default": 0
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "entropy": {
+                                                        "type": "number",
+                                                        "example": 4.7803223993,
+                                                        "default": 0
+                                                    },
+                                                    "size": {
+                                                        "type": "integer",
+                                                        "example": 88810,
+                                                        "default": 0
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "cache_age": {
+                                            "type": "integer",
+                                            "example": 86400,
+                                            "default": 0
+                                        },
+                                        "language": {
+                                            "type": "string",
+                                            "example": "en"
+                                        },
+                                        "app_links": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "path": {
+                                                        "type": "string",
+                                                        "example": "http/https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/"
+                                                    },
+                                                    "package": {
+                                                        "type": "string",
+                                                        "example": "com.aol.mobile.techcrunch"
+                                                    },
+                                                    "namespace": {
+                                                        "type": "string",
+                                                        "example": "google"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "android"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "original_url": {
+                                            "type": "string",
+                                            "example": "https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/"
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "example": "https://techcrunch.com/2017/04/26/investor-chris-sacca-is-retiring-from-venture-capital/"
+                                        },
+                                        "media": {
+                                            "type": "object",
+                                            "properties": {}
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Investor Chris Sacca is retiring from venture capital"
+                                        },
+                                        "offset": {},
+                                        "lead": {},
+                                        "content": {
+                                            "type": "string",
+                                            "example": "<div>\n<img src=\"https://tctechcrunch2011.files.wordpress.com/2015/12/chris-sacca.jpg?w=738\"><p>Chris Sacca, a former Google lawyer who rose to fame by betting heavily on Twitter and Uber, says he's \"hanging up his spurs,\" and getting out of the investing game.</p>\n<p>In a  <a href=\"https://lowercasecapital.com/2017/04/26/hanging-up-my-spurs/\">new post</a>, Sacca explains that he achieved what he set out to do when he created his venture firm, <a href=\"https://lowercasecapital.com/\">Lowercase Capital</a>, in 2009, an outfit that was helped along by early checks from Industry Ventures, Yahoo CEO Marissa Mayer, and Sacca's former Google boss, Eric Schmidt.</p>\n<p>Sacca had made one early bet in Instagram, as highlighted in a <a href=\"https://www.forbes.com/sites/alexkonrad/2015/03/25/how-venture-cowboy-chris-sacca-made-billions/#562b2d716597\"><em>Forbes</em> profile</a> about him in 2015. He quickly moved on to Twitter, however, creating four separate funds to buy up as many shares in the company, including from employees, as he could get his hands on.</p>\n<p>\"I wasted months trying to get others to believe it could be a real business, not just a toy,\" he told Forbes. \"And I decided to just buy it all myself.\" By the time of the article's publication, those various Twitter deals had reportedly returned $5 billion to investors.</p>\n<p>Sacca later tried repeating the move, gobbling up as many early Uber shares as he could. Yet at some point, his aggressive buying spree created a rift between himself and Uber CEO Travis Kalanick, who reportedly wasn't keen on him approaching employees about selling their stakes.</p>\n<p>That Sacca - who reportedly owned at least <a href=\"http://www.businessinsider.com/investor-chris-sacca-owns-4-of-uber-but-barely-speaks-to-ceo-travis-kalanick-2015-3\">4 percent</a> of the company at once point (and may still) - has \"zero say\" in how Uber is run has been \"frustrating,\" he <a href=\"https://twitter.com/sacca/status/833464144271597568\">tweeted</a> in February.</p>\n<p>In recent years, Sacca has also <a href=\"http://www.cnbc.com/2017/03/15/chris-sacca-twitter-investor-hates-stock-calls-bot-issue-embarrassing.html\">distanced himself</a> from Twitter, posting to his active Twitter account in March that, \"I haven't owned TWTR for almost a couple of years. When they failed to get Ev involved again, I lost hope. Love the service, hate the stock.\"</p>\n<p>In announcing his retirement from venture investing today, Sacca writes that it's \"hard to leave all this behind right when things are going so well. I'm good at what I do and still getting improving as I learn from mentors, founders, partners, friends, family, strangers, my own investors, and the experience itself. The better I get at investing in and helping companies, the result is more founders who are excited to work with me and more of my wonderful limited partners insisting I take piles of their loot to keep it all going.\"</p>\n<p>Still, says Sacca, with three children under age six, homes in Big Sky, Montana; Truckee, Ca.; and L.A., he's been trying to invest part-time and realized that it \"doesn't work when I've just got toes dangling in the water.\" He's opting not to raise more money for Lowercase, as a result. (He hints that his investing partner at the firm, Matt Mazzeo, will have a fund of his own soon.)</p>\n<p>So what comes next for Sacca? To head off any other questions about what comes next, he answers them pre-emptively in a rhetorical question format. Politics? No. More \"Shark Tank,\" the hit TV show where he has appeared as a judge in past seasons? No.</p>\n<p>What he will be doing, he says, is potentially more (other) TV, along with a podcast that Sacca describes as \"different from anything else I've seen out there,\" with subject matter that is \"hopefully boundless, eye-opening, and a little cathartic.\"</p>\n<p>Matt Mazzeo, a former CAA business development exec who joined Sacca at Lowercase in 2012, had told Forbes a couple of years back: \"I don't think Chris is one of those guys who makes a ton of money and drops the mic and leaves the room. He loves the people in the room so much that he'll stay.\"</p>\n<p>Times change, however. For Sacca, it's now \"time to walk away.\"</p>\n</div>"
+                                        },
+                                        "entities": {
+                                            "type": "array"
+                                        },
+                                        "favicon_colors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "color": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "integer",
+                                                            "example": 0,
+                                                            "default": 0
+                                                        }
+                                                    },
+                                                    "weight": {
+                                                        "type": "number",
+                                                        "example": 0.2082519531,
+                                                        "default": 0
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "keywords": {
+                                            "type": "array"
+                                        },
+                                        "published": {
+                                            "type": "integer",
+                                            "example": 1491987613000,
+                                            "default": 0
+                                        },
+                                        "provider_name": {
+                                            "type": "string",
+                                            "example": "TechCrunch"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "html"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "x-readme": {
+                    "code-samples": [
+                        {
+                            "language": "javascript",
+                            "code": "$.embedly.oembed('url', {});"
+                        }
+                    ],
+                    "samples-languages": [
+                        "javascript"
+                    ]
+                }
+            }
+        },
+        "/1/oembed": {
+            "get": {
+                "summary": "/1/oembed",
+                "description": "oEmbed is Embedly’s basic offering, providing a simple API for embedding content from any URL. This method follows the oEmbed standard.",
+                "operationId": "oembed",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL is to retrieve embedding information. This URL must be escaped to ensure that Embedly retrieves the correct link. For example, this Embedly URL.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "urls",
+                        "in": "query",
+                        "description": "A comma separated list of urls for Embedly to process. Each URL must be escaped, but commas separating URLS must NOT be URL encoded. urls accepts a maximum of 10 urls at a time. Embedly processes these urls in parallel, therefore, it’s quicker to use urls for batched processing.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "maxwidth",
+                        "in": "query",
+                        "description": "This is the maximum width of the embed in pixels. maxwidth is used for scaling down embeds so they fit into a certain width. If the container for an embed is 500px you should pass maxwidth=500 in the query parameters.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "maxheight",
+                        "in": "query",
+                        "description": "This is the maximum height of the embed in pixels. Functions the same as maxwidth, but for the height of the embed instead. It’s noteworthy that maxwidth is preferred over maxheight.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "Will scale embeds type rich and video to the exact width that a developer specifies in pixels. Embeds smaller than this width will be scaled up and embeds larger than this width will be scaled down. Note that using this may cause distortion when scaling up embeds.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "Will scale embeds type rich and video to the exact height that a developer specifies in pixels. Embeds smaller than this height will be scaled up and embeds larger than this height will be scaled down. Note that using this may cause distortion when scaling up embeds.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "in": "query",
+                        "description": "The response format – Accepted values: (xml, json)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wmode",
+                        "in": "query",
+                        "description": "Will append the wmode value to the flash object. Possible values include window, opaque and transparent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "callback",
+                        "in": "query",
+                        "description": "Returns a (jsonp) response format. The callback is the name of the javascript function to execute.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "allowscripts",
+                        "in": "query",
+                        "description": "By default Embedly does not return script embeds for jsonp requests. They just don’t work and cause lots of issues. In some cases, you may need the script tag for saving and displaying later. In order for Embedly to send the script embeds over jsonp add allowscripts=true. Use with care, and this option is only valid when a callback is supplied, otherwise, it is ignored.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "autoplay",
+                        "in": "query",
+                        "description": "This will tell the video/rich media to automatically play when the media is loaded. Accepted values: (true, false) Default: false",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "words",
+                        "in": "query",
+                        "description": "The words parameter works by trying to split the description at the closest sentence to that word count",
+                        "schema": {
+                            "type": "string",
+                            "default": "50"
+                        }
+                    },
+                    {
+                        "name": "chars",
+                        "in": "query",
+                        "description": "chars is much simpler than words. Embedly will blindly truncate a description to the number of characters you specify adding ... at the end when needed.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "luxe",
+                        "in": "query",
+                        "description": "With luxe Embedly’s iframe is initially loaded with poster image and play button rather than loading the whole embed. When the user clicks play the embed is loaded and starts playing.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "secure",
+                        "in": "query",
+                        "description": "secure allows you to serve embeds with a SSL connection. You can also serve images over SSL with our Display product. You can enable this by adding secure=true.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "scheme",
+                        "in": "query",
+                        "description": "scheme allows to set the protocol scheme explicity to http or https. By default embeds are sent back protocol-less so that they will work in any page. You can explicity set a protocol by adding scheme=https.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "With title Embedly will set the title response attribute to the open_graph, meta, or twitter title if available in the page. Accepted values: (og, twitter, meta)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "With description Embedly will set the description response attribute to the open_graph, meta, or twitter description if available in the page. Accepted values: (og, twitter, meta)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "meta_images",
+                        "in": "query",
+                        "description": "Will return only an image found in meta tags or an API response if set.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "description": "Turns on/off player analytics",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "dnt",
+                        "in": "query",
+                        "description": "Turns on/off Do Not Track support within embed",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{\n  \"type\": \"video\",\n  \"url\": \"http://www.youtube.com/watch?v=jofNR_WkoCE\",\n  \"provider_name\": \"YouTube\",\n  \"provider_url\": \"https://www.youtube.com/\", \n  \"title\": \"Ylvis - The Fox (What Does The Fox Say?) [Official music video HD]\",\n  \"description\": \"iTunes: http://smarturl.it/YlvisFox Fra I kveld med Y...\", \n  \"author_name\": \"TVNorge\",\n  \"author_url\": \"https://www.youtube.com/user/tvnorge\",\n  \"html\": \"<iframe class=\\\"embedly-embed\\\" src=\\\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FjofNR_WkoCE%3Ffeature%3Doembed&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjofNR_WkoCE&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FjofNR_WkoCE%2Fhqdefault.jpg&key=internal&type=text%2Fhtml&schema=youtube\\\" width=\\\"854\\\" height=\\\"480\\\" scrolling=\\\"no\\\" frameborder=\\\"0\\\" allowfullscreen></iframe>\",\n  \"width\": 854,\n  \"height\": 480, \n  \"thumbnail_url\": \"https://i.ytimg.com/vi/jofNR_WkoCE/hqdefault.jpg\", \n  \"thumbnail_width\": 480,\n  \"thumbnail_height\": 360,\n  \"version\": \"1.0\"\n}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "example": "video"
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "example": "http://www.youtube.com/watch?v=jofNR_WkoCE"
+                                        },
+                                        "provider_name": {
+                                            "type": "string",
+                                            "example": "YouTube"
+                                        },
+                                        "provider_url": {
+                                            "type": "string",
+                                            "example": "https://www.youtube.com/"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Ylvis - The Fox (What Does The Fox Say?) [Official music video HD]"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "iTunes: http://smarturl.it/YlvisFox Fra I kveld med Y..."
+                                        },
+                                        "author_name": {
+                                            "type": "string",
+                                            "example": "TVNorge"
+                                        },
+                                        "author_url": {
+                                            "type": "string",
+                                            "example": "https://www.youtube.com/user/tvnorge"
+                                        },
+                                        "html": {
+                                            "type": "string",
+                                            "example": "<iframe class=\"embedly-embed\" src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FjofNR_WkoCE%3Ffeature%3Doembed&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjofNR_WkoCE&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FjofNR_WkoCE%2Fhqdefault.jpg&key=internal&type=text%2Fhtml&schema=youtube\" width=\"854\" height=\"480\" scrolling=\"no\" frameborder=\"0\" allowfullscreen></iframe>"
+                                        },
+                                        "width": {
+                                            "type": "integer",
+                                            "example": 854,
+                                            "default": 0
+                                        },
+                                        "height": {
+                                            "type": "integer",
+                                            "example": 480,
+                                            "default": 0
+                                        },
+                                        "thumbnail_url": {
+                                            "type": "string",
+                                            "example": "https://i.ytimg.com/vi/jofNR_WkoCE/hqdefault.jpg"
+                                        },
+                                        "thumbnail_width": {
+                                            "type": "integer",
+                                            "example": 480,
+                                            "default": 0
+                                        },
+                                        "thumbnail_height": {
+                                            "type": "integer",
+                                            "example": 360,
+                                            "default": 0
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "example": "1.0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false,
+                "x-readme": {
+                    "code-samples": [
+                        {
+                            "language": "javascript",
+                            "code": "// jQuery\n$.getJSON('https://api.embedly.com/1/oembed?' + $.param({\n  url: 'https://www.youtube.com/watch?v=jofNR_WkoCE',\n  key: \":key\"\n}));\n\n// jQuery Embedly \n$.embedly.oembed('https://www.youtube.com/watch?v=jofNR_WkoCE', {key: \":key\"});"
+                        },
+                        {
+                            "language": "curl",
+                            "code": "curl \"http://api.embedly.com/1/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjofNR_WkoCE&key=:key\""
+                        },
+                        {
+                            "language": "python",
+                            "code": "import requests\n\n# Create the query\nquery = {\n  \"url\": \"https://www.youtube.com/watch?v=jofNR_WkoCE\",\n  \"key\": \":key\"\n}\n\n# Make the call.\nr = requests.get('https://api.embedly.com/1/oembed', params=query)\n\n# print the json result.\nprint r.json()\n"
+                        }
+                    ],
+                    "samples-languages": [
+                        "javascript",
+                        "curl",
+                        "python"
+                    ]
+                }
+            }
+        }
+    }
+}
