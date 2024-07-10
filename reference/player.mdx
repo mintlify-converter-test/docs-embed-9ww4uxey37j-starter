@@ -1,0 +1,194 @@
+---
+title: "Player"
+---
+Embedly's `platform.js` ships with a lightweight version of [Player.js](/docs/playerjs)
+ to make it easy to interact with Cards and Embedly Iframes. Instead of having to include multiple libraries and this makes it simple to interact with the media.
+
+<Info>
+
+## Make sure platform.js is installed!
+
+Intergrations require platform.js to be installed on the page, you can learn how to install it [here](/docs/playerjs)
+
+
+</Info>
+
+## Quick Start
+
+It's a rather simple integration. It looks like this:
+
+```javascript javascript
+embedly('player', function(player){
+  console.log(player.url) // URL of the media that we are operating on.
+
+  // When the user pauses a video, perform an action.
+  player.on('pause', function(){
+    //display modal.
+  });
+
+  // Autoplay all the videos that support Player.js
+  player.play()
+});
+
+```
+
+The player callback is only called if the Card or iframe supports player.js and is ready to accept calls. if supports the following methods
+
+## Demo
+
+Here's a quick demo of using the player method to control both a Card and a Media Iframe.
+
+## Methods
+
+**`player.play()`**: void  
+Play the media
+
+**`player.pause()`**: void  
+Pause the media
+
+**`player.getPaused(callback)`**: boolean  
+Determine if the media is paused
+
+``` 
+player.getPaused(function(paused){
+  console.log('Paused: '+paused);
+});
+
+```
+
+**`player.mute()`**: void  
+Mute the media
+
+**`player.unmute()`**: void  
+Unmute the media
+
+**`player.getMuted(callback)`**: boolean  
+Determine if the media is muted
+
+``` 
+player.getMuted(function(muted){
+  console.log('Muted: '+muted);
+});
+
+```
+
+**`player.setVolume(volume)`**: void  
+Set the volume. Value needs to be between 0-100
+
+``` 
+player.setVolume(50);
+
+```
+
+**`player.getVolume(callback)`**: number  
+Get the volume. Value will be between 0-100
+
+``` 
+player.getVolume(function(volume){
+  console.log('Volume: '+volume);
+});
+
+```
+
+**`player.getDuration(callback)`**: number  
+Get the duration of the media is seconds
+
+``` 
+player.getDuration(function(duration){
+  console.log('Duration: '+duration);
+});
+
+```
+
+**`player.setCurrentTime(seconds)`**: number  
+Perform a seek to a particular time in seconds
+
+``` 
+player.setVolume(10);
+
+```
+
+**`player.getCurrentTime(callback)`**: number  
+Get the current time in seconds of the video
+
+``` 
+player.getCurrentTime(function(seconds){
+  console.log('Current Time: '+seconds);
+});
+
+```
+
+**`player.setLoop(bool)`**: boolean  
+Tell the media to loop continuously
+
+``` 
+player.setLoop(true);
+
+```
+
+**`player.getLoop(callback)`**: number  
+Return the loop attribute of the video
+
+``` 
+player.getLoop(function(looped){
+  console.log('Looped: '+looped);
+});
+
+```
+
+## Events
+
+**`timeupdate`**  
+Fires during playback
+
+``` 
+player.on('timeupdate', function(data){
+  // autoplay the video.
+  console.log('Duration: '+ data.duration);
+  console.log('Current Time: '+ data.seconds);
+});
+
+```
+
+**`play`**  
+Fires when the video starts to play
+
+``` 
+player.on('play', function(){
+  console.log('played');
+});
+
+```
+
+**`pause`**  
+Fires when the video is paused
+
+``` 
+player.on('pause', function(){
+  console.log('paused');
+});
+
+```
+
+**`ended`**  
+Fires when the video has ended
+
+``` 
+player.on('ended', function(){
+  console.log('video ended');
+});
+
+```
+
+**`error`**  
+Fires when something goes wrong
+
+``` 
+player.on('ended', function(){
+  alert('unable to play media')
+});
+
+```
+
+
+
