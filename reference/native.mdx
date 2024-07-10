@@ -1,0 +1,134 @@
+---
+title: "Native"
+---
+Native embeds allow you to use embeds from Instagram, Facebook, Gumroad, Reddit and more in iframes rather than existing script tags. The benefit with this, is it provides more control over what script tags have access on the page.
+
+## Intro
+
+The case study here is Instagram, on the left is the native embed and the right is the traditional Embedly photo embed.
+
+<img className="block" src="images/files_readme_io/_4fc0f1d_Screenshot_2016_08_09_14.09.40.png" alt="955" />
+
+The image is easier to work with on the right for sizing and display purposes, but the native embed gives more context of the user and comment. The native feature allows developers to choose which version of the embed they want.
+
+There is however a different issue here, the following is Instagram's embed code:
+
+```html html
+<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-version="7" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:8px;"> <div style=" background:#F8F8F8; line-height:0; margin-top:40px; padding:37.4537037037% 0; text-align:center; width:100%;"> <div style=" background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAMAAAApWqozAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAMUExURczMzPf399fX1+bm5mzY9AMAAADiSURBVDjLvZXbEsMgCES5/P8/t9FuRVCRmU73JWlzosgSIIZURCjo/ad+EQJJB4Hv8BFt+IDpQoCx1wjOSBFhh2XssxEIYn3ulI/6MNReE07UIWJEv8UEOWDS88LY97kqyTliJKKtuYBbruAyVh5wOHiXmpi5we58Ek028czwyuQdLKPG1Bkb4NnM+VeAnfHqn1k4+GPT6uGQcvu2h2OVuIf/gWUFyy8OWEpdyZSa3aVCqpVoVvzZZ2VTnn2wU8qzVjDDetO90GSy9mVLqtgYSy231MxrY6I2gGqjrTY0L8fxCxfCBbhWrsYYAAAAAElFTkSuQmCC); display:block; height:44px; margin:0 auto -44px; position:relative; top:-22px; width:44px;"></div></div> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/p/BFpGYvWIXa_/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">⛰ #meghandideverything</a></p> <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;">A photo posted by @screeley on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2016-05-20T20:17:53+00:00">May 20, 2016 at 1:17pm PDT</time></p></div></blockquote>
+<script async defer src="//platform.instagram.com/en_US/embeds.js"></script>
+
+```
+
+It's a lot, but actually excellent. It creates a responsive div via the HTML with a background placeholder so the page doesn't jump around as much when it's loaded. The problem is that script tags are notoriously hard to deal with.
+
+This is why we created the native flag, it will render the above script tag in an iframe. Here's an example:
+
+Looks the same, but the embed code is different:
+
+```html html
+<iframe class="embedly-embed" src="https://cdn.embedly.com/widgets/media.html?type=text%2Fhtml&key=7727df7878374eb682a6551e4204d195&schema=instagram&url=https%3A//www.instagram.com/p/BFpGYvWIXa_/&image=https%3A//scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/13249707_1732121887055638_1697475077_n.jpg%3Fig_cache_key%3DMTI1NDU2MjA1OTU4MzA1OTY0Nw%253D%253D.2" width="640" height="479" scrolling="no" frameborder="0" allowfullscreen></iframe>
+
+```
+
+You'll notice just an iframe, no script tag, here's the scoop on why. Embedly needs to be able to resize the height of the iframe on initial load and when the page resizes. This allows us to make the embed responsive and appear correctly in the iframe.
+
+Embedly starts by taking an educated guess at what width and height the underlying embed will render at, and once the render is complete, we send a message via postMessage to tell the parent to please make the iframe this height.
+
+We will pass the following JSON via postMessage:
+
+```json json
+{
+  "src": "https://cdn.embedly.com/widgets/media.html?...",
+  "context": "iframe.resize",
+  "height": 406
+}
+```
+
+The `context` will always be "iframe.resize" and the `height` will be the height of the embed in pixels and the `src` will echo back the src of the iframe.
+
+## Using Native
+
+To use Native, you will need to modify your API calls to add `native=true` to the request parameters. Which means:
+
+```text text
+https://api.embedly.com/1/oembed?url=https%3A%2F%2Fwww.instagram.com%2Fp%2FBFpGYvWIXa_%2F&key=:key
+
+```
+
+Becomes:
+
+```text text
+https://api.embedly.com/1/oembed?url=https%3A%2F%2Fwww.instagram.com%2Fp%2FBFpGYvWIXa_%2F&key=:key&native=true
+
+```
+
+Next you will need to listen to the postMessage message and resize the iframes accordingly. There are a couple options here. You can either add Embedly's platform.js like so:
+
+```html html
+<script async src="https://cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+
+```
+
+Or if you want, add the following JavaScript instead:
+
+```javascript javascript
+window.addEventListener('message', function(e) {
+  var data;
+  try {
+    data = JSON.parse(e.data);
+  } catch (e) {
+    return false;
+  }
+
+  if (data.context !== 'iframe.resize') {
+    return false;
+  }
+
+  var iframe = document.querySelector('iframe[src="' + data.src + '"]');
+
+  if (!iframe) {
+    return false;
+  }
+ 
+  if (data.height) {
+    iframe.height = data.height;
+  }
+});
+
+```
+
+## Responsive
+
+If you are using responsive embeds, you need to modify the above code slightly to deal with padding on the container div. Here is an example of responsive native divs.
+
+The JavaScript code is slightly different.
+
+```javascript javascript
+window.addEventListener('message', function(e) {
+  var data;
+  try {
+    data = JSON.parse(e.data);
+  } catch (e) {
+    return false;
+  }
+
+  if (data.context !== 'iframe.resize') {
+    return false;
+  }
+
+  var iframe = document.querySelector('iframe[src="' + data.src + '"]');
+
+  if (!iframe) {
+    return false;
+  }
+ 
+ 	var div = iframe.parentNode;
+  
+  // Update the responsive div.
+  div.style.paddingBottom = ((data.height/iframe.offsetWidth)*100).toPrecision(4) + '%'
+});
+
+```
+
+
+
