@@ -1,0 +1,45 @@
+---
+title: "Inline"
+---
+Displaying images and videos inline is the most popular use case for Embedly. With Embedly jQuery, you can add rich media to any site with just a few lines of code.
+
+## Example 1: Replace
+
+It's tricky to show an inline example because it fit seamlessly into a normal web page. For the first example we will show an inline image.
+
+The above example uses [Embedly jQuery](https://github.com/embedly/embedly-jquery)
+ to just replace all the `a` tags with the embedded media. The html looks like:
+
+```html html
+<p>
+  <a href="http://instagram.com/p/TwWnNSIXRo/">http://instagram.com/p/TwWnNSIXRo/</a>
+</p>
+
+```
+
+And with just a little bit of JS we can replace the `a` tag with the image.
+
+```javascript javascript
+$('p a').embedly({
+    key: 'Your Embedly Key',
+    query: {maxwidth:530} });
+
+```
+
+## Example 2: Click to Replace
+
+To slow it down a bit and show you what actually happened, here is the same HTML.
+
+Click on the button to see the image be replaced inline.
+
+The JavaScript looks like this
+
+```javascript javascript
+$('.button').on('click', function(){
+   $('p a').embedly({query: {maxwidth:530} });
+});
+
+```
+
+
+
