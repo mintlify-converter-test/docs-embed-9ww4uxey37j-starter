@@ -1,0 +1,474 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "i.embed.ly",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://i.embed.ly"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sec0": {
+                "type": "apiKey",
+                "name": "key",
+                "in": "query",
+                "x-default": ""
+            }
+        }
+    },
+    "security": [
+        {
+            "sec0": []
+        }
+    ],
+    "paths": {
+        "/1/display": {
+            "get": {
+                "summary": "/1/display",
+                "description": "The Display endpoint is a simple proxy that allows you to embed insecure images into secure pages without warning and uses a fall back image for images not found.",
+                "operationId": "display",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL of the image to proxy. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "errorurl",
+                        "in": "query",
+                        "description": "The URL of the fall back image to use when url fails. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "animate",
+                        "in": "query",
+                        "description": "Setting animate to false will convert the image to the first frame of animation for animated images. Setting this value on non-animated images will have non effect and is safe to do.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "compresspng",
+                        "in": "query",
+                        "description": "Will run images through pngcompressor. Increases response time.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "Please set an \"Accept: image/*\" header when you programmatically make requests to \"i.embed.ly\" to receive raw image data.  Without this, the API responds with an HTML wrapped image tag (security).",
+                        "schema": {
+                            "type": "string",
+                            "default": "image/*"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "text/plain": {
+                                "examples": {
+                                    "Result": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/1/display/crop": {
+            "get": {
+                "summary": "/1/display/crop",
+                "description": "Crop an image to fill the given dimensions.",
+                "operationId": "crop",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL of the image to proxy. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "errorurl",
+                        "in": "query",
+                        "description": "The URL of the fall back image to use when url fails. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "The width that the image should fill.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "The height that the image should fill.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "grow",
+                        "in": "query",
+                        "description": "Set to true if growing the image is allowed. Otherwise the image will never expand beyond it’s original dimensions, making width and height behave like max width and max height.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "animate",
+                        "in": "query",
+                        "description": "Setting animate to false will convert the image to the first frame of animation for animated images. Setting this value on non-animated images will have non effect and is safe to do.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "compresspng",
+                        "in": "query",
+                        "description": "Will run images through pngcompressor. Increases response time.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "quality",
+                        "in": "query",
+                        "description": "Quality of the image between 1 and 95.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "Please set an \"Accept: image/*\" header when you programmatically make requests to \"i.embed.ly\" to receive raw image data.  Without this, the API responds with an HTML wrapped image tag (security).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "text/plain": {
+                                "examples": {
+                                    "Result": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/1/display/resize": {
+            "get": {
+                "summary": "/1/display/resize",
+                "description": "Resize images to a specified width or height. Aspect ratio will always be preserved, so you shouldn’t expect to receive an image with the exact specified dimensions. If width and height are omitted, then the image will simply be proxied.",
+                "operationId": "resize",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL of the image to proxy. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "errorurl",
+                        "in": "query",
+                        "description": "The URL of the fall back image to use when url fails. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "The width that the image should fill.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "The height that the image should fill.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "grow",
+                        "in": "query",
+                        "description": "Set to true if growing the image is allowed. Otherwise the image will never expand beyond it’s original dimensions, making width and height behave like max width and max height.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "animate",
+                        "in": "query",
+                        "description": "Setting animate to false will convert the image to the first frame of animation for animated images. Setting this value on non-animated images will have non effect and is safe to do.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "compresspng",
+                        "in": "query",
+                        "description": "Will run images through pngcompressor. Increases response time.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "quality",
+                        "in": "query",
+                        "description": "Quality of the image between 1 and 95.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "Please set an \"Accept: image/*\" header when you programmatically make requests to \"i.embed.ly\" to receive raw image data.  Without this, the API responds with an HTML wrapped image tag (security).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "text/plain": {
+                                "examples": {
+                                    "Result": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/1/display/fill": {
+            "get": {
+                "summary": "/1/display/fill",
+                "description": "The image will be resized and centered on the canvas so that the entire image fits within the width and height bounds. Any extra space will be filled with the specified color.",
+                "operationId": "fill",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "The URL of the image to proxy. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "errorurl",
+                        "in": "query",
+                        "description": "The URL of the fall back image to use when url fails. The URL must be url-encoded to ensure that Embedly retrieves the correct link.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "width",
+                        "in": "query",
+                        "description": "The width that the image should fill.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "The height that the image should fill.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "color",
+                        "in": "query",
+                        "description": "The css color to fill with. Colors should be 3 or 6 hexadecimal characters. Some examples of valid colors: 000 and 4f2a55.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "animate",
+                        "in": "query",
+                        "description": "Setting animate to false will convert the image to the first frame of animation for animated images. Setting this value on non-animated images will have non effect and is safe to do.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "compresspng",
+                        "in": "query",
+                        "description": "Will run images through pngcompressor. Increases response time.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "quality",
+                        "in": "query",
+                        "description": "Quality of the image between 1 and 95.",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "Please set an \"Accept: image/*\" header when you programmatically make requests to \"i.embed.ly\" to receive raw image data.  Without this, the API responds with an HTML wrapped image tag (security).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "text/plain": {
+                                "examples": {
+                                    "Result": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    }
+}
