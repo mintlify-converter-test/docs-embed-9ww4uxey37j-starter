@@ -1,0 +1,249 @@
+---
+title: "Player.js"
+---
+Player.js allows developers to programmatically control Embedly embeds. You can tell a video to play, pause, seek and listen to events with JavaScript.
+
+It's pretty cool. Here's at quick example:
+
+```javascript javascript
+// Use jQuery to find all the embedly iframes on the page.
+$('iframe.embedly-embed').each(function(){
+  // initialize the player.
+	var player = new playerjs.Player(this);
+  
+  // Wait for the player to be ready.
+  player.on('ready', function(){
+    
+    // Listen to the play event.
+    player.on('play', function(){
+    	// Tell Google analytics that a video was played.
+      window.ga('send', 'event', 'Video', 'Play');
+    });
+  
+    //autoplay the video.
+    player.play();
+  });
+});
+
+```
+
+<Check>
+
+## Player.js Resources
+
+Player.js is an open source specification that anyone can use. Here are some additional resources:
+
+Site: [playerjs.io](http://playerjs.io/)
+  
+Code: [github.com/embedly/player.js](https://github.com/embedly/player.js)
+
+
+</Check>
+
+## Install
+
+You need to include Player.js on your site:
+
+``` 
+bower install player.js
+
+```
+
+Or include the script tag on your site directly.
+
+```html html
+<script type="text/javascript" src="//cdn.embed.ly/player-0.0.11.min.js"></script>
+
+```
+
+## Ready
+
+Because of the dance that we need to do between both iframes, you should always wait till the ready events fire before interacting with the player object. But good news, the player will internally queue messages until ready is called.
+
+```javascript javascript
+var iframe = document.querySelector('iframe.embedly-embed');
+
+var player = new playerjs.Player(iframe);
+
+player.on(playerjs.Events.PLAY, function(
+  console.log('play');
+));
+
+player.on('ready', function(){
+	// Seek to 20 seconds in.
+  player.setCurrentTime(20);
+});
+
+```
+
+## Demo
+
+Embeds are resource intensive to load, often times you want to just show a placeholder and autoplay the video when the video loads. Here's how you would do that with Player.js. Click play below.
+
+## Methods
+
+**`player.play()`**: void  
+Play the media
+
+**`player.pause()`**: void  
+Pause the media
+
+**`player.getPaused(callback)`**: boolean  
+Determine if the media is paused
+
+``` 
+player.getPaused(function(paused){
+  console.log('Paused: '+paused);
+});
+
+```
+
+**`player.mute()`**: void  
+Mute the media
+
+**`player.unmute()`**: void  
+Unmute the media
+
+**`player.getMuted(callback)`**: boolean  
+Determine if the media is muted
+
+``` 
+player.getMuted(function(muted){
+  console.log('Muted: '+muted);
+});
+
+```
+
+**`player.setVolume(volume)`**: void  
+Set the volume. Value needs to be between 0-100
+
+``` 
+player.setVolume(50);
+
+```
+
+**`player.getVolume(callback)`**: number  
+Get the volume. Value will be between 0-100
+
+``` 
+player.getVolume(function(volume){
+  console.log('Volume: '+volume);
+});
+
+```
+
+**`player.getDuration(callback)`**: number  
+Get the duration of the media is seconds
+
+``` 
+player.getDuration(function(duration){
+  console.log('Duration: '+duration);
+});
+
+```
+
+**`player.setCurrentTime(seconds)`**: number  
+Perform a seek to a particular time in seconds
+
+``` 
+player.setVolume(10);
+
+```
+
+**`player.getCurrentTime(callback)`**: number  
+Get the current time in seconds of the video
+
+``` 
+player.getCurrentTime(function(seconds){
+  console.log('Current Time: '+seconds);
+});
+
+```
+
+**`player.setLoop(bool)`**: boolean  
+Tell the media to loop continuously
+
+``` 
+player.setLoop(true);
+
+```
+
+**`player.getLoop(callback)`**: number  
+Return the loop attribute of the video
+
+``` 
+player.getLoop(function(looped){
+  console.log('Looped: '+looped);
+});
+
+```
+
+## Events
+
+Events that can be listened to.
+
+**`ready`**  
+fired when the media is ready to receive commands. This is fired regardless of listening to the event. `ready` sets the stage for the rest of the interactions with the iframe.
+
+``` 
+player.on('ready', function(){
+  // autoplay the video.
+  player.play();
+});
+
+```
+
+**`timeupdate`**  
+Fires during playback
+
+``` 
+player.on('timeupdate', function(data){
+  // autoplay the video.
+  console.log('Duration: '+ data.duration);
+  console.log('Current Time: '+ data.seconds);
+});
+
+```
+
+**`play`**  
+Fires when the video starts to play
+
+``` 
+player.on('play', function(){
+  console.log('played');
+});
+
+```
+
+**`pause`**  
+Fires when the video is paused
+
+``` 
+player.on('pause', function(){
+  console.log('paused');
+});
+
+```
+
+**`ended`**  
+Fires when the video has ended
+
+``` 
+player.on('ended', function(){
+  console.log('video ended');
+});
+
+```
+
+**`error`**  
+Fires when something goes wrong
+
+``` 
+player.on('ended', function(){
+  alert('unable to play media')
+});
+
+```
+
+
+
