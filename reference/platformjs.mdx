@@ -1,0 +1,37 @@
+---
+title: "Install"
+description: "Embedly's JavaScript library"
+---
+`plaform.js` is Embedly's JavaScript library for creating cards, buttons, modals and interacting with the player apis.
+
+## Install
+
+There are multiple ways to install `platform.js` into your page, here is the preferred method. Copy and paste the following code to the `<body>` of your document.
+
+```html html
+<script>
+  (function(w, d){
+   var id='embedly-platform', n = 'script';
+   if (!d.getElementById(id)){
+     w.embedly = w.embedly || function() {(w.embedly.q = w.embedly.q || []).push(arguments);};
+     var e = d.createElement(n); e.id = id; e.async=1;
+     e.src = ('https:' === document.location.protocol ? 'https' : 'http') + '://cdn.embedly.com/widgets/platform.js';
+     var s = d.getElementsByTagName(n)[0];
+     s.parentNode.insertBefore(e, s);
+   }
+  })(window, document);
+</script>
+
+```
+
+This allows embedly to install `platform.js` javascript in an async manner, but still queue requests immediately.
+
+If you will not be integrating the the `embedly` global object then you can also use:
+
+```html html
+<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+
+```
+
+
+
