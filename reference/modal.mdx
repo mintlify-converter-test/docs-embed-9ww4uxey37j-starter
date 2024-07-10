@@ -1,0 +1,69 @@
+---
+title: "Modal"
+---
+Modals are a really easy way to show embeds when you don't have the real estate on the page to display them inline. Here we are going to show a super easy modal a couple of ways.
+
+## On Demand
+
+Instead of prefetching all the data associated with the links on the page, only make an API call when the user has initiated an event. In this case, it's click to watch the video.
+
+In this case, when the button is clicked, we fetch the embed code and place it in the model. Here's the Javascript.
+
+```text text
+$('.button').on('click', function(e) {
+  
+  // Show the Foundation modal.
+  var elem = new Foundation.Reveal($('#videoModal'), {
+    vOffset: 0
+  });
+  elem.open();
+
+  // Get the URL.
+  var url = $(this).attr('href');
+
+  // Call embedly
+  $.embedly.oembed(url, {
+      key: 'Your Embed Key'
+    })
+    .progress(function(obj) {
+      $('#videoModal h2').text(obj.title);
+      $('#videoModal div').html('<div class="flex-video">' + obj.html + '</div>');
+    });
+
+  // So the link isn't followed.
+  return false;
+});
+
+```
+
+## Pre Fetch
+
+In this case we will grab the data before the user clicks on the link. The modal will render a little faster because we already have the data.
+
+In this case we use the default Embedly jQuery process to grab the URL data on load then display that data when the button is clicked.
+
+```javascript javascript
+$('.button')
+  .embedly({
+    display: $.noop,
+    key:'Your Embedly Key'
+  })
+  .on('click', function() {
+    // Get the data that embedly stored on the attr.
+    var obj = $(this).data('embedly');
+    $('#videoModal h2').text(obj.title);
+    $('#videoModal div').html('<div class="flex-video">' + obj.html + '</div>');
+
+    var elem = new Foundation.Reveal($('#videoModal'), {
+      vOffset: 0
+    });
+
+    // open the model.
+    elem.open();
+    return false;
+  });
+
+```
+
+
+
